@@ -1,0 +1,70 @@
+CREATE TABLE person (
+    id_person        INTEGER NOT NULL,
+    name            VARCHAR(30) 
+
+     NOT NULL,
+    surname        VARCHAR(30) 
+
+     NOT NULL,
+    login           VARCHAR(30) 
+
+     NOT NULL,
+    password        VARCHAR(30) 
+
+     NOT NULL,
+    phone_number  INTEGER NOT NULL,
+    pesel           INTEGER NOT NULL,
+    role_id_role    INTEGER NOT NULL
+);
+
+ALTER TABLE person ADD CONSTRAINT person_pk PRIMARY KEY ( id_person );
+
+CREATE TABLE products (
+    id_products  INTEGER NOT NULL,
+    name        VARCHAR(30)  
+     NOT NULL,
+    price         INTEGER NOT NULL
+);
+
+ALTER TABLE products ADD CONSTRAINT products_pk PRIMARY KEY ( id_products );
+
+CREATE TABLE role (
+    id_role   INTEGER NOT NULL,
+    type_role  VARCHAR(30) 
+
+     NOT NULL
+);
+
+ALTER TABLE role ADD CONSTRAINT role_pk PRIMARY KEY ( id_role );
+
+CREATE TABLE orders (
+    id_orders    INTEGER NOT NULL,
+    date_orders  INTEGER NOT NULL,
+    person_id_person   INTEGER NOT NULL
+);
+
+ALTER TABLE orders ADD CONSTRAINT orders_pk PRIMARY KEY ( id_orders );
+
+CREATE TABLE orders_products (
+    orders_id_orders  INTEGER NOT NULL,
+    products_id_products      INTEGER NOT NULL,
+    quantity                     INTEGER NOT NULL
+);
+
+ALTER TABLE person
+    ADD CONSTRAINT person_role_fk FOREIGN KEY ( role_id_role )
+        REFERENCES role ( id_role );
+
+ALTER TABLE orders
+    ADD CONSTRAINT orders_person_fk FOREIGN KEY ( person_id_person )
+        REFERENCES person ( id_person );
+
+
+ALTER TABLE orders_products
+    ADD CONSTRAINT orders_products_products_fk FOREIGN KEY ( products_id_products )
+        REFERENCES products ( id_products );
+
+
+ALTER TABLE orders_products
+    ADD CONSTRAINT orders_products_orders_fk FOREIGN KEY ( orders_id_orders )
+        REFERENCES orders ( id_orders );
